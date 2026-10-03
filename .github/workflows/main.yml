@@ -1,15 +1,31 @@
-name: hello world
+name: Hello World DevOps Workflow
 
 on:
   push:
-      branches:
-          - main
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
-   hello:
-      runs-on: ubuntu-latest
+  hello:
+    runs-on: ubuntu-latest
 
-      steps:
-      - uses: actions/checkout@v2
-      - name: run echo
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Run Echo Greeting
         run: echo "Hello, world!"
+
+      - name: Display Environment Info
+        run: |
+          echo "Triggered by event: ${{ github.event_name }}"
+          echo "Running on runner OS: $RUNNER_OS"
+          echo "Commit SHA: ${{ github.sha }}"
+
+      - name: Simulate Project Build Step
+        run: |
+          echo "Checking directory contents..."
+          ls -la
+          echo "Build process completed successfully!"
